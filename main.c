@@ -6,7 +6,7 @@
 /*   By: avaliull <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/24 12:39:46 by avaliull       #+#    #+#                */
-/*   Updated: 2024/11/24 16:27:07 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/26 11:38:43 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(void)
 {
 	int	fd;
 	char	*next_line;
-	int	i = 0;
+	//int	i = 0;
 
 	fd = open("/home/avaliull/Projects/lvl1/get_next_line/attempt_01/txtfile", O_RDONLY);
 //	while(i != 5)
