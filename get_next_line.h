@@ -6,7 +6,7 @@
 /*   By: avaliull <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/24 12:59:44 by avaliull       #+#    #+#                */
-/*   Updated: 2024/11/26 13:29:39 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/28 13:46:06 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@
 //	struct s_list   *next;
 //}				t_list;
 
-char	*get_next_line(int fd);
-char	*alloc_next_line(char *buff_str, size_t mem, size_t edge, int fd);
-char	*file_reader(char *buff_str, int fd);
+void	buff_zero(char *buff_str);
+size_t	gnl_strlen(char *str);
+char	*alloc_buff(char *buff_str, char *next_read, size_t read_len);
+char	*gnl_cat(char *buff_str, char *next_read);
+char	*trim_buff(char *buff_str, size_t start);
 
 #endif
