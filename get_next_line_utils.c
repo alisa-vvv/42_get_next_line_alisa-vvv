@@ -6,13 +6,13 @@
 /*   By: avaliull <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/26 15:27:38 by avaliull       #+#    #+#                */
-/*   Updated: 2024/11/28 19:50:41 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/29 12:49:25 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*buff_zero(char *buff_str)
+void	buff_zero(char *buff_str)
 {
 	size_t	i;
 
@@ -24,7 +24,6 @@ char	*buff_zero(char *buff_str)
 	}
 	free(buff_str);
 	buff_str = NULL;
-	return (buff_str);
 }
 
 ssize_t	gnl_strlen(char *str)

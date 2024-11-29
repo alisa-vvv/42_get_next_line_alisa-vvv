@@ -6,7 +6,7 @@
 /*   By: avaliull <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/24 12:59:44 by avaliull       #+#    #+#                */
-/*   Updated: 2024/11/28 19:50:47 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/29 12:48:58 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 //}				t_list;
 
 char	*get_next_line(int fd);
-char	*buff_zero(char *buff_str);
+void	buff_zero(char *buff_str);
 ssize_t	gnl_strlen(char *str);
 char	*alloc_buff(char *buff_str, char *next_read);
 char	*gnl_cat(char *buff_str, char *next_read);
