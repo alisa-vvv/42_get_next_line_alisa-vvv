@@ -6,7 +6,7 @@
 /*   By: avaliull <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/26 15:27:38 by avaliull       #+#    #+#                */
-/*   Updated: 2024/11/29 12:49:25 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/11/29 15:55:34 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	buff_zero(char *buff_str)
 	i = 0;
 	while (buff_str[i])
 	{
-		buff_str[i] = 0;
+		buff_str[i] = '\0';
 		i++;
 	}
 	free(buff_str);
@@ -81,28 +81,47 @@ char	*gnl_cat(char *buff_str, char *next_read)
 	return (new_buff);
 }
 
-char	*trim_buff(char *buff_str, ssize_t next_line_end)
+void	trim_buff(char *buff_str, ssize_t next_line_end)
 {
 	ssize_t	i;
 	ssize_t	buff_len;
-	size_t	new_buff_len;
-	char	*new_buff;
+	ssize_t	new_buff_len;
+//	char	*new_buff;
 
+	printf("untrimmed buff: %s\n", buff_str);
 	i = 0;
 	buff_len = gnl_strlen(buff_str);
 	if (buff_len == next_line_end + 1)
-		return (buff_str);
+		return ;
+	if (!buff_str)
+		return ;
 	new_buff_len = buff_len - next_line_end;
-	new_buff = malloc(new_buff_len + 1);
-	if (!new_buff)
-		return (NULL);
+	//printf("checking buff_len%zu\n", buff_len);
+	//printf("checking new_buff_len%zu\n", new_buff_len);
+	//new_buff = malloc(new_buff_len + 1);
+	//if (!new_buff)
+	//	return (NULL);
+	//next_line_end++;
+	//while (i < buff_len)
+	//{
+	//	new_buff[i] = buff_str[next_line_end];
+	//	i++;
+	//	next_line_end++;
+	//}
+	//printf("new_buff: %s\n", new_buff);
+	//free(buff_str);
+	//return (new_buff);
 	next_line_end++;
-	while (i < buff_len)
+	while (i <= new_buff_len)
 	{
-		new_buff[i] = buff_str[next_line_end];
+		buff_str[i] = buff_str[next_line_end + i];
 		i++;
-		next_line_end++;
 	}
-	free(buff_str);
-	return (new_buff);
+	while (next_line_end)
+	{
+		buff_str[buff_len] = '\0';
+		next_line_end--;
+		buff_len--;
+	}
+	printf("trimmed buff: %s\n", buff_str);
 }
