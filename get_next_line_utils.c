@@ -6,7 +6,7 @@
 /*   By: avaliull <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/26 15:27:38 by avaliull       #+#    #+#                */
-/*   Updated: 2024/12/01 16:14:34 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/01 18:13:14 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ char	*alloc_buff(char *buff_str, char *next_read, int read_re_val)
 	return (buff_str);
 }
 
-char	*gnl_cat(char *buff_str, char *next_read, int read_re_val)
+void	gnl_cat(char **buff_str, char *next_read, int read_re_val)
 {
 	char	*new_buff;
 	int	buff_len;
 	int	i;
 
 	i = 0;
-	buff_len = gnl_strlen(buff_str);
+	buff_len = gnl_strlen(*buff_str);
 	new_buff = gnl_calloc(read_re_val + buff_len + 1);
 	if (!new_buff)
 		return (NULL);
@@ -75,8 +75,8 @@ char	*gnl_cat(char *buff_str, char *next_read, int read_re_val)
 		i++;
 	}
 	new_buff[i] = '\0';
-	free(buff_str);
-	return (new_buff);
+	free(*buff_str);
+	*buff_str = new_buff;
 }
 
 void	trim_buff(char *buff_str, int next_line_end)
