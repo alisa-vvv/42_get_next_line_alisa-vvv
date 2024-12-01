@@ -6,13 +6,13 @@
 /*   By: avaliull <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/26 15:27:38 by avaliull       #+#    #+#                */
-/*   Updated: 2024/11/29 15:55:34 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/01 16:14:34 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	buff_zero(char *buff_str)
+char	*buff_zero(char *buff_str)
 {
 	size_t	i;
 
@@ -24,11 +24,12 @@ void	buff_zero(char *buff_str)
 	}
 	free(buff_str);
 	buff_str = NULL;
+	return (buff_str);
 }
 
-ssize_t	gnl_strlen(char *str)
+int	gnl_strlen(char *str)
 {
-	size_t	len;
+	int	len;
 
 	len = 0;
 	while (str[len])
@@ -36,17 +37,15 @@ ssize_t	gnl_strlen(char *str)
 	return (len);
 }
 
-char	*alloc_buff(char *buff_str, char *next_read)
+char	*alloc_buff(char *buff_str, char *next_read, int read_re_val)
 {
-	size_t	i;
-	size_t	read_len;
+	int	i;
 
-	read_len = gnl_strlen(next_read);
 	i = 0;
-	buff_str = malloc(read_len + 1);
+	buff_str = gnl_calloc(read_re_val + 1);
 	if (!buff_str)
 		return (NULL);
-	while (i < read_len + 1)
+	while (i < read_re_val)
 	{
 		buff_str[i] = *next_read++;
 		i++;
@@ -54,17 +53,15 @@ char	*alloc_buff(char *buff_str, char *next_read)
 	return (buff_str);
 }
 
-char	*gnl_cat(char *buff_str, char *next_read)
+char	*gnl_cat(char *buff_str, char *next_read, int read_re_val)
 {
 	char	*new_buff;
-	size_t	buff_len;
-	size_t	read_len;
-	size_t	i;
+	int	buff_len;
+	int	i;
 
 	i = 0;
-	read_len = gnl_strlen(next_read);
 	buff_len = gnl_strlen(buff_str);
-	new_buff = malloc(read_len + buff_len + 1);
+	new_buff = gnl_calloc(read_re_val + buff_len + 1);
 	if (!new_buff)
 		return (NULL);
 	while (i < buff_len)
@@ -72,23 +69,22 @@ char	*gnl_cat(char *buff_str, char *next_read)
 		new_buff[i] = buff_str[i];
 		i++;
 	}
-	while (i < buff_len + read_len + 1)
+	while (i < buff_len + read_re_val)
 	{
 		new_buff[i] = *next_read++;
 		i++;
 	}
+	new_buff[i] = '\0';
 	free(buff_str);
 	return (new_buff);
 }
 
-void	trim_buff(char *buff_str, ssize_t next_line_end)
+void	trim_buff(char *buff_str, int next_line_end)
 {
-	ssize_t	i;
-	ssize_t	buff_len;
-	ssize_t	new_buff_len;
-//	char	*new_buff;
+	int	i;
+	int	buff_len;
+	int	new_buff_len;
 
-	printf("untrimmed buff: %s\n", buff_str);
 	i = 0;
 	buff_len = gnl_strlen(buff_str);
 	if (buff_len == next_line_end + 1)
@@ -96,21 +92,6 @@ void	trim_buff(char *buff_str, ssize_t next_line_end)
 	if (!buff_str)
 		return ;
 	new_buff_len = buff_len - next_line_end;
-	//printf("checking buff_len%zu\n", buff_len);
-	//printf("checking new_buff_len%zu\n", new_buff_len);
-	//new_buff = malloc(new_buff_len + 1);
-	//if (!new_buff)
-	//	return (NULL);
-	//next_line_end++;
-	//while (i < buff_len)
-	//{
-	//	new_buff[i] = buff_str[next_line_end];
-	//	i++;
-	//	next_line_end++;
-	//}
-	//printf("new_buff: %s\n", new_buff);
-	//free(buff_str);
-	//return (new_buff);
 	next_line_end++;
 	while (i <= new_buff_len)
 	{
@@ -123,5 +104,20 @@ void	trim_buff(char *buff_str, ssize_t next_line_end)
 		next_line_end--;
 		buff_len--;
 	}
-	printf("trimmed buff: %s\n", buff_str);
+}
+
+void	*gnl_calloc(int size)
+{
+	unsigned char	*new_mem;
+
+	new_mem = malloc(size);
+	if (!new_mem)
+		return (NULL);
+	size--;
+	while (size >= 0)
+	{
+		new_mem[size] = '\0';
+		size--;
+	}
+	return (new_mem);
 }

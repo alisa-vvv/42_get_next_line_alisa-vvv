@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>                       +#+       */
 /*                                                    +#+                     */
 /*   Created: 2024/11/24 12:37:21 by avaliull       #+#    #+#                */
-/*   Updated: 2024/11/29 16:13:01 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/01 17:46:42 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,38 +22,39 @@
 // you think malloc cleans your fucking memory area????
 // dumbass, nothing gets overwritten. its just saying 'here you are, heres some memory', you expect c to clean your fucking house as well?>
 
-void	rec_read(char *buff_str, int fd, ssize_t *next_line_end)
+char	*rec_read(char *buff_str, int fd, int *next_line_end)
 {
 	char		next_read[BUFFER_SIZE + 1];
 	int		read_re_val;
-	size_t		i;
+	int		i;
+	int		buff_len;
 
 	read_re_val = read(fd, next_read, BUFFER_SIZE);
+	next_read[read_re_val] = '\0';
 	if (read_re_val > 0)
-		buff_str = gnl_cat(buff_str, next_read);
+		buff_str = gnl_cat(buff_str, next_read, read_re_val);
 	if (!buff_str)
-	{
-		*next_line_end = -1;
-		return ;
-	}
+		return (NULL);
+	buff_len = gnl_strlen(buff_str);
 	i = 0;
 	while (buff_str[i] != '\0')
 	{
-		if (next_read[i] == '\n')
+		if (buff_str[i] == '\n')
 		{
 			*next_line_end = i;
-			return ;
+			return (buff_str);
 		}
 		i++;
 	}
-	if (i == 0)
-		rec_read(buff_str, fd, next_line_end);
+	if (i == buff_len)
+		buff_str = rec_read(buff_str, fd, next_line_end);
+	return (buff_str);
 }
 
-static char	*find_nl(char *buff_str, ssize_t *next_line_end, int read_val, int fd)
+static char	*find_nl(char *buff_str, int *next_line_end, int read_val, int fd)
 {
 	char	*next_line;
-	ssize_t	i;
+	int	i;
 
 	while (buff_str[*next_line_end] != '\0')
 	{
@@ -61,12 +62,12 @@ static char	*find_nl(char *buff_str, ssize_t *next_line_end, int read_val, int f
 			break ;
 		(*next_line_end)++;
 	}
-	if (read_val == 0 && *next_line_end != 0)
-		rec_read(buff_str, fd, next_line_end);
-	/* I think I have to put thuis part as a separate function and use it here and in the rec_read, returning either rec_read or this*/
-	if (*next_line_end == -1)
+	if (*next_line_end == read_val)
+		buff_str = rec_read(buff_str, fd, next_line_end);
+	if (!buff_str)
 		return (NULL);
-	next_line = malloc(*next_line_end + 1);
+	/* I think I have to put thuis part as a separate function and use it here and in the rec_read, returning either rec_read or this*/
+	next_line = gnl_calloc(*next_line_end + 1);
 	if (!next_line)
 		return (NULL);
 	i = 0;
@@ -75,8 +76,10 @@ static char	*find_nl(char *buff_str, ssize_t *next_line_end, int read_val, int f
 		next_line[i] = buff_str[i];
 		i++;
 	}
-	if (buff_str[*next_line_end + i] == '\0')
-		buff_zero(buff_str);
+	next_line[i] = '\0';
+	if (buff_str[i] == '\0')
+		*next_line_end = -1;
+	printf("check buff_str: %s\n", buff_str);
 	/* The pount is that rec_read would return a next_line by itself and clean the buffer properly. I think? this feels like nonsense */
 	return (next_line);
 }
@@ -86,24 +89,40 @@ char	*get_next_line(int fd)
 	static char	*buff_str;
 	char		next_read[BUFFER_SIZE + 1];
 	int		read_re_val;
-	ssize_t		next_line_end;
+	int		next_line_end;
 	char		*next_line;
 
 	read_re_val = read(fd, next_read, BUFFER_SIZE);
-	printf("next_read: %s\n", next_read);
+	next_read[read_re_val] = '\0';
 	if (read_re_val > 0 && !buff_str)
-		buff_str = alloc_buff(buff_str, next_read);
+		buff_str = alloc_buff(buff_str, next_read, read_re_val);
 	else if (read_re_val <= 0 && !buff_str)
 		return (NULL);
 	else if (*next_read && buff_str && read_re_val > 0)
-		buff_str = gnl_cat(buff_str, next_read);
+		buff_str = gnl_cat(buff_str, next_read, read_re_val);
 	if (!*buff_str)
 		return (NULL);
 	next_line_end = 0;
 	next_line = find_nl(buff_str, &next_line_end, read_re_val, fd);
 	if (!next_line)
+	{
+		buff_str = buff_zero(buff_str);
 		return (NULL);
-	if (buff_str)
+	}
+//	int i = 0;
+//	if (buff_str == next_line)
+//	{
+//		next_line = malloc(gnl_strlen(buff_str + 1));
+//		while (buff_str[i] != '\0')
+//		{
+//			next_line[i] = buff_str[i];
+//			i++;
+//		}
+//	}
+	printf("buff_str after: %s\n", buff_str);
+	if (next_line_end == -1)
+		buff_str = buff_zero(buff_str);
+	else if (buff_str)
 		trim_buff(buff_str, next_line_end);
 	return (next_line);
 }
