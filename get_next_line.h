@@ -6,7 +6,7 @@
 /*   By: avaliull <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/24 12:59:44 by avaliull       #+#    #+#                */
-/*   Updated: 2024/12/02 19:57:47 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/03 18:43:11 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 # ifdef BUFFER_SIZE
 #  if BUFFER_SIZE > 8300000 || BUFFER_SIZE < 0
 #   undef BUFFER_SIZE
-#   define BUFFER_SIZE 42
+#   define BUFFER_SIZE 1000
 #  endif
 # endif
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 1000
 # endif
 
 /*	HEADERS I NEED	*/
