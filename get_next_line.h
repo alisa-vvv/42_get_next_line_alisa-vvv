@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                         ::::::::           */
+/*                                                        :::      ::::::::   */
 /*   get_next_line.h                                     :+:    :+:           */
-/*                                                      +:+                   */
-/*   By: avaliull <marvin@42.fr>                       +#+                    */
-/*                                                    +#+                     */
-/*   Created: 2024/11/24 12:59:44 by avaliull       #+#    #+#                */
-/*   Updated: 2024/12/03 18:43:11 by avaliull       ########   odam.nl        */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/24 12:59:44 by avaliull          #+#    #+#             */
+/*   Updated: 2024/12/04 20:08:01 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,14 @@
 #  define BUFFER_SIZE 1000
 # endif
 
-/*	HEADERS I NEED	*/
 # include <unistd.h>
 # include <stdlib.h>
-/*	HEADERS FOR TEST	*/
-# include <stdio.h>
-# include <fcntl.h>
 
 char	*get_next_line(int fd);
 void	buff_zero(char **buff_str);
-int		gnl_strlen(char *str);
+ssize_t	gnl_strlen(char *str);
 char	*alloc_buff(char *buff_str, char *next_read, int read_re_val);
-void	gnl_cat(char **buff_str, char *next_read, int read_re_val);
-void	trim_buff(char **buff_str, int next_line_end);
+void	trim_buff(char **buff_str, ssize_t next_line_end);
 void	*gnl_calloc(int size);
 
 #endif
