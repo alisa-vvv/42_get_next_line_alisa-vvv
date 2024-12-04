@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>                       +#+       */
 /*                                                    +#+                     */
 /*   Created: 2024/11/24 12:37:21 by avaliull       #+#    #+#                */
-/*   Updated: 2024/12/03 20:56:28 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/04 12:12:55 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 // THIS IS PROBABLY BEST GOTTEN RID OF BY REWEITING IT SO THERE'S NO RECURSION. OR FIX IT SO IT ALWAYS PASSES UP THE LAST RESULT
 // I THINK THAT CAN BE ACHIVED WITH AN IF CHECK THAT RETURNS -1 IF -1 IS RETURNED FROM LAST REC_READ (REC_READ WOULD BE INT IN THIS CASE)
 
-char	*rec_read(char **buff_str, int fd, int *next_line_end)
+int	rec_read(char **buff_str, int fd, int next_line_end)
 {
 	char		next_read[BUFFER_SIZE + 1];
 	int		read_re_val;
@@ -34,10 +34,12 @@ char	*rec_read(char **buff_str, int fd, int *next_line_end)
 
 	read_re_val = read(fd, next_read, BUFFER_SIZE);
 	if (read_re_val == 0)
-		return (*buff_str);
+		return (next_line_end);
+	if (read_re_val == -1)
+		return (-1);
 	gnl_cat(buff_str, next_read, read_re_val);
 	if (!(*buff_str))
-		return (NULL);
+		return (-1);
 	i = 0;
 //	printf("*buff_str here: %s\n", *buff_str);
 	while ((*buff_str)[i] != '\0')
@@ -45,16 +47,16 @@ char	*rec_read(char **buff_str, int fd, int *next_line_end)
 		if ((*buff_str)[i] == '\n')
 		{
 //			printf("are we in the loop\n");
-			*(next_line_end) = i;
-//			printf("value in loop: %d\n", *next_line_end);
-			return (*buff_str);
+			return (i);
 		}
 		i++;
 	}
+	next_line_end = gnl_strlen(*buff_str) - 1;
 	if ((*buff_str)[i] == '\0')
-		rec_read(buff_str, fd, next_line_end);
-	*next_line_end = gnl_strlen(*buff_str) - 1;
-	return (*buff_str);
+		next_line_end = rec_read(buff_str, fd, next_line_end);
+	if (next_line_end == -1)
+		return (-1);
+	return (next_line_end);
 }
 
 static char	*find_nl(char **buff_str, int *next_line_end, int read_val, int fd)
@@ -69,12 +71,13 @@ static char	*find_nl(char **buff_str, int *next_line_end, int read_val, int fd)
 		(*next_line_end)++;
 	}
 //	printf("checking buff_str: %s\n", *buff_str);
-	//if (*next_line_end == read_val)
-	read_val++;
+	read_val++; //THIS IS TEMP SO COMPILER DOESNT COMPLAIN GET RID OF IT LATER
 	if (*next_line_end == gnl_strlen(*buff_str))
-		//if (!rec_read(buff_str, fd, next_line_end))
-		if (!rec_read(buff_str, fd, next_line_end))
+	{
+		*next_line_end = rec_read(buff_str, fd, *next_line_end);
+		if (*next_line_end == -1)
 			return (NULL);
+	}
 //	printf("line end: %d\n", *next_line_end);
 	/* I think I have to put thuis part as a separate function and use it here and in the rec_read, returning either rec_read or this*/
 	next_line = gnl_calloc(*next_line_end + 2);
@@ -125,4 +128,5 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	return (next_line);
+	next_line_end = gnl_strlen(*buff_str) - 1;
 }
