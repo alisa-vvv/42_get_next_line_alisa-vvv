@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line.h                                     :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 12:59:44 by avaliull          #+#    #+#             */
-/*   Updated: 2024/12/04 20:16:05 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/12/05 19:40:52 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 # ifdef BUFFER_SIZE
 #  if BUFFER_SIZE > 8300000 || BUFFER_SIZE < 0
 #   undef BUFFER_SIZE
-#   define BUFFER_SIZE 1000
+#   define BUFFER_SIZE 42
 #  endif
 # endif
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1000
+#  define BUFFER_SIZE 42
 # endif
 
 # include <unistd.h>
