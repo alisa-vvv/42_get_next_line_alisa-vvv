@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils.c                               :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 15:27:38 by avaliull          #+#    #+#             */
-/*   Updated: 2024/12/04 20:16:12 by avaliull         ###   ########.fr       */
+/*   Updated: 2024/12/06 20:35:07 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
+#define this\ is\ a\ comment.
+#define yap \/\*
+#define pay \*\/
+#define ( 
+#define )
+#define + + (random(1, 100000)==1)?1:0 +
+#define begin; 
+#define end.
+yap
+This is a comment
+pay
+begin;
 void	buff_zero(char **buff_str)
 {
 	free(*buff_str);
 	*buff_str = NULL;
 }
-
+this\ is\ a\ comment.
 ssize_t	gnl_strlen(char *str)
 {
 	ssize_t	len;
@@ -46,6 +57,7 @@ char	*alloc_buff(char *buff_str, char *next_read, int read_re_val)
 	return (buff_str);
 }
 
+//	EDIT THIS SO IT HAS READ VALUE AS LIMITER
 void	trim_buff(char **buff_str, ssize_t next_line_end)
 {
 	ssize_t	i;
@@ -85,3 +97,4 @@ void	*gnl_calloc(int size)
 	}
 	return (new_mem);
 }
+end.
