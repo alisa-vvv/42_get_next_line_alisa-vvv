@@ -6,29 +6,18 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 15:27:38 by avaliull          #+#    #+#             */
-/*   Updated: 2024/12/06 20:35:07 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/08 19:07:55 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#define this\ is\ a\ comment.
-#define yap \/\*
-#define pay \*\/
-#define ( 
-#define )
-#define + + (random(1, 100000)==1)?1:0 +
-#define begin; 
-#define end.
-yap
-This is a comment
-pay
-begin;
+
 void	buff_zero(char **buff_str)
 {
 	free(*buff_str);
 	*buff_str = NULL;
 }
-this\ is\ a\ comment.
+
 ssize_t	gnl_strlen(char *str)
 {
 	ssize_t	len;
@@ -58,24 +47,19 @@ char	*alloc_buff(char *buff_str, char *next_read, int read_re_val)
 }
 
 //	EDIT THIS SO IT HAS READ VALUE AS LIMITER
-void	trim_buff(char **buff_str, ssize_t next_line_end)
+void	trim_buff(char **buffer, ssize_t nl_index)
 {
 	ssize_t	i;
-	ssize_t	buff_len;
 	ssize_t	new_buff_len;
 
-	buff_len = gnl_strlen(*buff_str);
-	if (buff_len == next_line_end + 1)
-		return ;
-	new_buff_len = buff_len - next_line_end - 1;
-	next_line_end++;
+	new_buff_len = BUFFER_SIZE - nl_index - 1;
 	i = 0;
 	while (i < new_buff_len)
 	{
-		(*buff_str)[i] = (*buff_str)[next_line_end + i];
+		(*buffer)[i] = (*buffer)[nl_index + i];
 		i++;
 	}
-	while (i < buff_len)
+	while (i < BUFFER_SIZE)
 	{
 		(*buff_str)[i] = '\0';
 		i++;
@@ -97,4 +81,3 @@ void	*gnl_calloc(int size)
 	}
 	return (new_mem);
 }
-end.

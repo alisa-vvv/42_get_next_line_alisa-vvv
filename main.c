@@ -6,7 +6,7 @@
 /*   By: avaliull <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/24 12:39:46 by avaliull       #+#    #+#                */
-/*   Updated: 2024/12/06 18:42:07 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/08 19:54:46 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,21 @@
 #include "get_next_line.h"
 # include <stdio.h>
 # include <fcntl.h>
+//void	gnl_bzero(char *mem, ssize_t size)
+//{
+//	while (--size >= 0)
+//		mem[size] = '\0';
+//}
 
 int	main(void)
 {
-	int	fd;
-	char	*next_line;
-
+//	int	fd;
+//	char	*next_line;
+//
 //	fd = open("./test_files/txtfile", O_RDONLY);
-//	fd = open("./test_files/alternate_line_nl_with_nl", O_RDONLY);
+	fd = open("./test_files/alternate_line_nl_with_nl", O_RDONLY);
 //	fd = open("./test_files/41_no_nl", O_RDONLY);
-	fd = open("./test_files/variable_nls.txt", O_RDONLY);
+//	fd = open("./test_files/variable_nls.txt", O_RDONLY);
 //	fd = open("./test_files/read_error.txt", O_RDONLY);
 //	fd = open("./test_files/1char.txt", O_RDONLY);
 //	fd = open("./test_files/one_line_no_nl.txt", O_RDONLY);
@@ -37,18 +42,24 @@ int	main(void)
 //	}
 	next_line = get_next_line(fd);
 	printf("next line is: %s\n", next_line);
-//	while(next_line != NULL)
-//	{	
-//		next_line = get_next_line(fd);
-//		printf("next line is: %s\n", next_line);
-//	}
-//
-//	free(next_line);
+	while(next_line != NULL)
+	{	
+		next_line = get_next_line(fd);
+		printf("next line is: %s\n", next_line);
+	}
+
+	free(next_line);
 
 ////	FOR TESTING INDIVIDUAL FUNCS
 //	static char	*buff_str;
-//	char		*next_read = "test";
-//
+//	char		*next_read;
+////
+//	int i = 0;
+//	next_read = malloc(5);
+//	while (i < 5)
+//		next_read[i++] = 'a';
+//	gnl_bzero(next_read, i);
+//	printf("if im not dumb this works :%s\n", next_read);
 //	buff_str = malloc(5);
 //	buff_str[0] = 'a';
 //	buff_str[1] = 'b';
