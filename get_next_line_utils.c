@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 15:27:38 by avaliull          #+#    #+#             */
-/*   Updated: 2024/12/08 20:00:46 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/10 15:25:51 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,19 @@ void	trim_buff(char **buffer, ssize_t nl_index)
 {
 	ssize_t	i;
 	ssize_t	new_buff_len;
+	ssize_t	index_offset;
 
 	new_buff_len = BUFFER_SIZE - nl_index - 1;
+	index_offset = nl_index + 1;
 	i = 0;
 	while (i < new_buff_len)
 	{
-		(*buffer)[i] = (*buffer)[nl_index + i];
+		(*buffer)[i] = (*buffer)[index_offset + i];
 		i++;
 	}
 	while (i < BUFFER_SIZE)
 	{
-		(*buff_str)[i] = '\0';
+		(*buffer)[i] = '\0';
 		i++;
 	}
 }

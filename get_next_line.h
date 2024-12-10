@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 12:59:44 by avaliull          #+#    #+#             */
-/*   Updated: 2024/12/06 17:54:39 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/10 15:17:21 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+
+/*	These includes are for testing only	*/
+#include <stdio.h>
 
 char	*get_next_line(int fd);
 void	buff_zero(char **buff_str);
