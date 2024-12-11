@@ -6,74 +6,53 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 15:27:38 by avaliull          #+#    #+#             */
-/*   Updated: 2024/12/11 15:14:27 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/11 20:04:52 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-//void	buff_zero(char **buff_str)
-//{
-//	free(*buff_str);
-//	*buff_str = NULL;
-//}
-//
-//ssize_t	gnl_strlen(char *str)
-//{
-//	ssize_t	len;
-//
-//	if (!str)
-//		return (0);
-//	len = 0;
-//	while (str[len] != '\0')
-//		len++;
-//	return (len);
-//}
-//
-//char	*alloc_buff(char *buff_str, char *next_read, int read_re_val)
-//{
-//	int	i;
-//
-//	i = 0;
-//	buff_str = gnl_calloc(read_re_val + 1);
-//	if (!buff_str)
-//		return (NULL);
-//	while (i < read_re_val)
-//	{
-//		buff_str[i] = *next_read++;
-//		i++;
-//	}
-//	return (buff_str);
-//}
+void	gnl_bzero(char **mem, ssize_t size)
+{
+	while (--size >= 0)
+		(*mem)[size] = '\0';
+}
 
-//void	*gnl_calloc(int size)
-//{
-//	unsigned char	*new_mem;
-//
-//	new_mem = malloc(size);
-//	if (!new_mem)
-//		return (NULL);
-//	size--;
-//	while (size >= 0)
-//	{
-//		new_mem[size] = '\0';
-//		size--;
-//	}
-//	return (new_mem);
-//}
+void	set_str(const char *src, char *dest, ssize_t size)
+{
+	dest[size] = '\0';
+	while (--size >= 0)
+		dest[size] = src[size];
+}
 
-void	trim_buff(char **buffer, ssize_t nl_index)
+char	*gnl_str_join(char *str1, char *str2, ssize_t len_1, ssize_t len_2)
+{
+	ssize_t	new_len;
+	char	*new_str;
+
+	new_len = len_1 + len_2;
+	new_str = malloc(new_len + 1);
+	if (!new_str)
+	{
+		free(str1);
+		return (NULL);	
+	}
+	set_str(str1, new_str, len_1);
+	set_str(str2, new_str + len_1, len_2);
+	free(str1);
+	return (new_str);
+}
+
+void	trim_buff(char **buffer, ssize_t last_char_index, ssize_t max_len)
 {
 	ssize_t	i;
-	ssize_t	new_buff_len;
-	ssize_t	index_offset;
+	ssize_t	new_start_index;
 
-	new_buff_len = BUFFER_SIZE - nl_index - 1;
-	index_offset = nl_index + 1;
+	new_start_index = last_char_index + 1;
 	i = 0;
-	while (i < new_buff_len)
+	while (i < max_len - new_start_index)
 	{
-		(*buffer)[i] = (*buffer)[index_offset + i];
+		(*buffer)[i] = (*buffer)[new_start_index + i];
 		i++;
 	}
 	while (i < BUFFER_SIZE)
