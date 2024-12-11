@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 12:37:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/12/10 15:41:11 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/11 16:48:36 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@
 
 void	gnl_bzero(char **mem, ssize_t size)
 {
-	while (--size)
+	while (--size >= 0)
 		(*mem)[size] = '\0';
 }
 
@@ -127,18 +127,60 @@ char	*gnl_str_join(char *str1, char *str2, ssize_t len_1, ssize_t len_2)
 	ssize_t	new_len;
 	char	*new_str;
 
+	printf("str1: (%s)\n", str1);
+	printf("len1: %zu\n", len_1);
+	printf("str2: (%s)\n", str2);
+	printf("len_2: %zu\n", len_2);
 	new_len = len_1 + len_2;
 	new_str = malloc(new_len + 1);
 	if (!new_str)
+	{
+		free(str1);
 		return (NULL);	
+	}
 	set_str(str1, new_str, len_1);
 	set_str(str2, new_str + len_1, len_2);
+	free(str1);
 	return (new_str);
 }
 
+//static char	*read_loop(char **buffer, int fd, char **next_line, ssize_t len)
+//{
+//	int	read_return;
+//	int	nl_index;
+//	int	keep_reading;
+//
+//	keep_reading = 1;
+//	while (keep_reading == 1)
+//	{
+//		read_return = read(fd, *buffer, BUFFER_SIZE);
+//		if (read_return < 0)
+//		{
+//			free(*next_line);
+//			return ;
+//		}
+//		if (read_return == 0)
+//		{
+//			gnl_bzero(buffer, BUFFER_SIZE);
+//			return ;
+//		}
+//		nl_index = find_nl_index(*buffer, read_return);
+//		if (nl_index < read_return - 1)
+//		{
+//			*next_line = gnl_str_join(*next_line, *buffer, len, nl_index + 1);
+//			keep_reading = 0;
+//		}
+//		else
+//			*next_line = gnl_str_join(*next_line, *buffer, len, read_return - 1);
+//		if (!*next_line)
+//			return ;
+//		len += read_return;
+//	}
+//	trim_buff(buffer, nl_index);
+//}
+
 static char	*read_loop(char **buffer, int fd, char *next_line, ssize_t len)
 {
-	char	*tmp_next_line;
 	int	read_return;
 	int	nl_index;
 	int	keep_reading;
@@ -158,17 +200,18 @@ static char	*read_loop(char **buffer, int fd, char *next_line, ssize_t len)
 			return (next_line);
 		}
 		nl_index = find_nl_index(*buffer, read_return);
-		if (nl_index < read_return)
+		if (nl_index < read_return - 1)
 		{
-			tmp_next_line = gnl_str_join(next_line, *buffer, len, nl_index);
+			printf("is it here?\n");
+			printf("len: %zu\n", len);
+			printf("the index: %d\n", nl_index);
+			next_line = gnl_str_join(next_line, *buffer, len, nl_index + 1);
 			keep_reading = 0;
 		}
 		else
-			tmp_next_line = gnl_str_join(next_line, *buffer, len, read_return - 1);
-		if (!tmp_next_line)
-			keep_reading = 0;
-		free(next_line);
-		next_line = tmp_next_line;
+			next_line = gnl_str_join(next_line, *buffer, len, read_return - 1);
+		if (!next_line)
+			return (NULL);
 		len += read_return;
 	}
 	trim_buff(buffer, nl_index);
@@ -181,24 +224,27 @@ static char	*find_nl(char **buffer, int fd, int buff_len)
 	int	nl_index;
 
 	nl_index = find_nl_index(*buffer, buff_len);
+	printf("nl_index: %d\n", nl_index);
 	if (nl_index == buff_len)
-		next_line = malloc(nl_index);	
+		next_line = malloc(nl_index);
 	else
-		next_line = malloc(nl_index + 1);
+		next_line = malloc(nl_index + 2);
 	if (!next_line)
 		return (NULL);
 	if (nl_index == buff_len)
 	{
 		set_str(*buffer, next_line, nl_index);
 		next_line = read_loop(buffer, fd, next_line, buff_len);
+//		read_loop(buffer, fd, &next_line, buff_len);
 		return (next_line);
 	}
 	set_str(*buffer, next_line, nl_index + 1);
 	//this ocndtionfjg craxy
-	if (buff_len < BUFFER_SIZE && nl_index > buff_len)
-		gnl_bzero(buffer, BUFFER_SIZE);
-	else
-		trim_buff(buffer, nl_index);
+	//if (nl_index == buff_len - 1 && buff_len < BUFFER_SIZE)
+	//{
+	//	gnl_bzero(buffer, BUFFER_SIZE);
+	//}
+	trim_buff(buffer, nl_index);
 	return (next_line);
 }
 
@@ -225,7 +271,6 @@ char	*get_next_line(int fd)
 			buff_len++;
 		}
 	}
-	printf("buff_len: %d\n", buff_len);
 	buffer_ptr = &buffer[0];
 	next_line = find_nl(&buffer_ptr, fd, buff_len);
 	return (next_line);

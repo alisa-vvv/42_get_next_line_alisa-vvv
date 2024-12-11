@@ -6,7 +6,7 @@
 /*   By: avaliull <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2024/11/24 12:39:46 by avaliull       #+#    #+#                */
-/*   Updated: 2024/12/10 15:26:49 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/11 16:43:50 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	main(void)
 		next_line = get_next_line(fd);
 		i++;
 		printf("next line is: %s\n", next_line);
+		free(next_line);
 	}
 
 //	next_line = get_next_line(fd);
@@ -44,7 +45,7 @@ int	main(void)
 //		printf("next line is: %s\n", next_line);
 //	}
 //
-	free(next_line);
+//	free(next_line);
 
 ////	FOR TESTING INDIVIDUAL FUNCS
 //	static char	*buff_str;
