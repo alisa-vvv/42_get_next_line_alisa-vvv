@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 15:27:38 by avaliull          #+#    #+#             */
-/*   Updated: 2024/12/12 12:32:42 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/13 14:56:01 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	gnl_bzero(char **mem, ssize_t size)
 {
-	while (--size >= 0)
+	while (size--)
 		(*mem)[size] = '\0';
 }
 
 void	set_str(const char *src, char *dest, ssize_t size)
 {
 	dest[size] = '\0';
-	while (--size >= 0)
+	while (size--)
 		dest[size] = src[size];
 }
 

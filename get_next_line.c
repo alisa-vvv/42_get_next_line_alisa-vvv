@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 12:37:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/12/12 12:32:04 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/13 15:03:47 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ char	*get_next_line(int fd)
 {
 	static char	buffer[BUFFER_SIZE];
 	char		*buffer_ptr;
-	char		*next_line;
 	int			buff_len;
 
 	buff_len = 0;
@@ -113,6 +112,5 @@ char	*get_next_line(int fd)
 		}
 	}
 	buffer_ptr = &buffer[0];
-	next_line = find_nl(&buffer_ptr, fd, buff_len);
-	return (next_line);
+	return (find_nl(&buffer_ptr, fd, buff_len));
 }

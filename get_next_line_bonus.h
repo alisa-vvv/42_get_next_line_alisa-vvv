@@ -6,12 +6,18 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 12:59:44 by avaliull          #+#    #+#             */
-/*   Updated: 2024/12/12 12:47:54 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/13 15:16:57 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
+
+# include <unistd.h>
+# include <stdlib.h>
+
+/*	These includes are for testing only	*/
+//#include <stdio.h>
 
 # ifdef BUFFER_SIZE
 #  if BUFFER_SIZE > 8300000 || BUFFER_SIZE < 1
@@ -23,12 +29,6 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
-
-# include <unistd.h>
-# include <stdlib.h>
-
-/*	These includes are for testing only	*/
-//#include <stdio.h>
 
 char	*get_next_line(int fd);
 void	set_str(const char *src, char *dest, ssize_t size);
