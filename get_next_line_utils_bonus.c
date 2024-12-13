@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                               :+:    :+:           */
+/*   get_next_line_utils_bonus.c                         :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 15:27:38 by avaliull          #+#    #+#             */
-/*   Updated: 2024/12/12 12:32:42 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/12 12:37:19 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 void	gnl_bzero(char **mem, ssize_t size)
 {

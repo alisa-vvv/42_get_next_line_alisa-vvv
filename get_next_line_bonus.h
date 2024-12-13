@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                     :+:    :+:           */
+/*   get_next_line_bonus.h                               :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 12:59:44 by avaliull          #+#    #+#             */
-/*   Updated: 2024/12/12 12:28:22 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/12 12:47:54 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # ifdef BUFFER_SIZE
 #  if BUFFER_SIZE > 8300000 || BUFFER_SIZE < 1

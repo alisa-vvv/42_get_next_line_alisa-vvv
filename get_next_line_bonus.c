@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                     :+:    :+:           */
+/*   get_next_line_bonus.c                               :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 12:37:21 by avaliull          #+#    #+#             */
-/*   Updated: 2024/12/12 12:32:04 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/12 12:42:01 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static ssize_t	find_nl_index(const char *buffer, int read_len)
 {
@@ -91,28 +91,28 @@ static char	*find_nl(char **buffer, int fd, int buff_len)
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE];
+	static char	buffer[1024][BUFFER_SIZE];
 	char		*buffer_ptr;
 	char		*next_line;
 	int			buff_len;
 
 	buff_len = 0;
-	if (buffer[0] == '\0')
+	if (buffer[fd][0] == '\0')
 	{
-		buff_len = read(fd, buffer, BUFFER_SIZE);
+		buff_len = read(fd, buffer[fd], BUFFER_SIZE);
 		if (buff_len <= 0)
 			return (NULL);
 	}
 	if (!buff_len)
 	{
-		while (buffer[buff_len] && buff_len < BUFFER_SIZE)
+		while (buffer[fd][buff_len] && buff_len < BUFFER_SIZE)
 		{
-			if (buffer[buff_len] == '\0')
+			if (buffer[fd][buff_len] == '\0')
 				break ;
 			buff_len++;
 		}
 	}
-	buffer_ptr = &buffer[0];
+	buffer_ptr = &buffer[fd][0];
 	next_line = find_nl(&buffer_ptr, fd, buff_len);
 	return (next_line);
 }
