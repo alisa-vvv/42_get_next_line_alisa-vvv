@@ -6,7 +6,7 @@
 /*   By: avaliull <avaliull@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 12:59:44 by avaliull          #+#    #+#             */
-/*   Updated: 2024/12/13 15:16:57 by avaliull       ########   odam.nl        */
+/*   Updated: 2024/12/14 12:46:15 by avaliull       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,12 @@
 /*	These includes are for testing only	*/
 //#include <stdio.h>
 
-# ifdef BUFFER_SIZE
+# if defined(BUFFER_SIZE)
 #  if BUFFER_SIZE > 8300000 || BUFFER_SIZE < 1
 #   undef BUFFER_SIZE
 #   define BUFFER_SIZE 42
 #  endif
-# endif
-
-# ifndef BUFFER_SIZE
+# else
 #  define BUFFER_SIZE 42
 # endif
 
